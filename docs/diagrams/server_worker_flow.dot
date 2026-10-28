@@ -1,0 +1,47 @@
+digraph server_worker {
+    graph [rankdir=TB, bgcolor="white", pad="0.2", nodesep="0.34",
+           ranksep="0.38", fontname="Noto Sans CJK SC", fontsize=11];
+    node [fontname="Noto Sans CJK SC", fontsize=10, penwidth=1.1];
+    edge [fontname="Noto Sans CJK SC", fontsize=9, color="#4A5568",
+          arrowsize=0.75];
+
+    start [shape=oval, label="连接线程开始", fillcolor="#DFF3E4",
+           style=filled, color="#3C8D5A"];
+    login [shape=box, label="设置 10 s 超时\n读取并解析 LOGIN"];
+    valid [shape=diamond, label="LOGIN 合法、昵称合法、\n人数 < 64 且昵称未占用？"];
+    reject [shape=box, label="ERROR + close\n（拒绝连接）"];
+    add [shape=box, label="加锁加入链表\n发送 WELCOME，广播 JOIN\n解锁并取消接收超时"];
+    loop [shape=box, label="消息循环：readline()\n读取一帧"];
+    readret [shape=diamond, label="返回 1 行？"];
+    framed [shape=diamond, label="帧格式合法？"];
+    type [shape=diamond, label="TYPE ?"];
+    chat [shape=box, label="校验 UTF-8 / 长度\n加锁分配时间戳并广播 CHAT"];
+    pong [shape=box, label="发送 PONG"];
+    list [shape=box, label="加锁生成在线列表\n发送 INFO"];
+    err [shape=box, label="发送 ERROR\n继续循环"];
+    cleanup [shape=box, label="广播 LEAVE\n从链表删除"];
+    close [shape=box, label="shutdown + close + free"];
+    end [shape=oval, label="线程结束", fillcolor="#FDE2E2", style=filled,
+         color="#B85C5C"];
+
+    start -> login -> valid;
+    valid -> add [label="是"];
+    valid -> reject [label="否"];
+    reject -> close;
+    add -> loop;
+    loop -> readret;
+    readret -> framed [label="是"];
+    readret -> cleanup [label="0 / 错误 / 超长"];
+    framed -> type [label="是"];
+    framed -> err [label="否"];
+    type -> chat [label="CHAT"];
+    type -> pong [label="PING"];
+    type -> list [label="LIST"];
+    type -> cleanup [label="QUIT"];
+    type -> err [label="其他"];
+    chat -> loop;
+    pong -> loop;
+    list -> loop;
+    err -> loop;
+    cleanup -> close -> end;
+}

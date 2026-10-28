@@ -1,0 +1,35 @@
+=== capture ===
+emulated loss on lo: 0%
+-rwxrwxrwx 1 ysy ysy 6.2K Oct 28 20:20 /mnt/e/network-lab/build/chat-normal.pcap
+
+=== TCP conversations ===
+================================================================================
+TCP Conversations
+Filter:<No Filter>
+                                                           |       <-      | |       ->      | |     Total     |    Relative    |   Duration   |
+                                                           | Frames  Bytes | | Frames  Bytes | | Frames  Bytes |      Start     |              |
+127.0.0.1:39196            <-> 127.0.0.1:19002                  7 896 bytes       8 659 bytes      15 1555 bytes     0.004248000         0.0682
+127.0.0.1:39198            <-> 127.0.0.1:19002                  6 748 bytes       8 648 bytes      14 1396 bytes     0.060433000         0.0146
+127.0.0.1:39202            <-> 127.0.0.1:19002                  6 746 bytes       6 446 bytes      12 1192 bytes     0.065577000         0.0095
+127.0.0.1:39214            <-> 127.0.0.1:19002                  5 417 bytes       5 379 bytes      10 796 bytes     0.070647000         0.0004
+127.0.0.1:39188            <-> 127.0.0.1:19002                  2 140 bytes       4 272 bytes       6 412 bytes     0.000000000         0.0002
+================================================================================
+
+=== possible packet loss / retransmission / reset ===
+count: 0
+
+=== packet totals ===
+
+===================================
+| IO Statistics                   |
+|                                 |
+| Duration: 0.075 secs            |
+| Interval: 0.075 secs            |
+|                                 |
+| Col 1: Frames and bytes         |
+|---------------------------------|
+|                |1               |
+| Interval       | Frames | Bytes |
+|---------------------------------|
+| 0.000 <> 0.075 |     57 |  5351 |
+===================================

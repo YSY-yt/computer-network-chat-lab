@@ -1,0 +1,14 @@
+=== 多用户聊天室 / Multi-user chat ===
+server: 127.0.0.1:19001   nickname: Bob
+[2026-10-28 20:21:39] #1 * 欢迎 Bob！输入 /help 查看命令。Welcome! Online users: 2
+输入 /help 查看命令，输入 /quit 退出。
+
+[2026-10-28 20:21:39] #2 * Bob 加入了聊天室（joined the chat）
+[2026-10-28 20:21:40] #3 * 小明 加入了聊天室（joined the chat）
+[2026-10-28 20:21:41] #4 <Alice> 大家好，我是 Alice。Hello, this is Alice.
+[2026-10-28 20:21:43] #5 <Bob> Hi Alice! 中英混合 mixed message 😀
+[2026-10-28 20:21:45] #6 <小明> 三人都在：Hello 大家好 123，管道符 | 也可以发送。
+[2026-10-28 20:21:46] #7 * 服务器响应 PONG (server is alive)
+[2026-10-28 20:21:47] #8 * 在线用户（3）：小明, Bob, Alice
+[2026-10-28 20:21:48] #9 * Alice 离开了聊天室（left the chat）
+[client] 已退出聊天室 (bye)

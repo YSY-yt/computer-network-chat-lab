@@ -1,0 +1,11 @@
+Chat server listening on 0.0.0.0:19001
+Protocol: CHAT/1, max clients: 64. Press Ctrl+C to stop.
+[2026-10-28 20:21:37] 127.0.0.1:56846 joined as "Alice" (online=1)
+[2026-10-28 20:21:39] 127.0.0.1:56856 joined as "Bob" (online=2)
+[2026-10-28 20:21:40] 127.0.0.1:56864 joined as "小明" (online=3)
+[2026-10-28 20:21:48] 127.0.0.1:56846 left (online=2)
+[2026-10-28 20:21:50] 127.0.0.1:56856 left (online=1)
+[2026-10-28 20:21:51] 127.0.0.1:56864 left (online=0)
+
+Stopping server...
+Server stopped.

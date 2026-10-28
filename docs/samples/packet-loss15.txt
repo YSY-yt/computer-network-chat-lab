@@ -1,0 +1,43 @@
+=== capture ===
+emulated loss on lo: 15%
+-rwxrwxrwx 1 ysy ysy 11K Oct 28 20:21 /mnt/e/network-lab/build/chat-loss15.pcap
+
+=== TCP conversations ===
+================================================================================
+TCP Conversations
+Filter:<No Filter>
+                                                           |       <-      | |       ->      | |     Total     |    Relative    |   Duration   |
+                                                           | Frames  Bytes | | Frames  Bytes | | Frames  Bytes |      Start     |              |
+127.0.0.1:44306            <-> 127.0.0.1:19002                 12 1627 bytes      15 1218 bytes      27 2845 bytes     0.009756000         1.7199
+127.0.0.1:44312            <-> 127.0.0.1:19002                 12 1412 bytes      14 1225 bytes      26 2637 bytes     0.662564000         1.0623
+127.0.0.1:44300            <-> 127.0.0.1:19002                 12 1474 bytes      13 1035 bytes      25 2509 bytes     0.004251000         1.1655
+127.0.0.1:44328            <-> 127.0.0.1:19002                  6 483 bytes       5 391 bytes      11 874 bytes     0.673747000         0.2079
+127.0.0.1:44292            <-> 127.0.0.1:19002                  2 140 bytes       4 272 bytes       6 412 bytes     0.000000000         0.0002
+================================================================================
+
+=== possible packet loss / retransmission / reset ===
+24	[TCP Retransmission] 19002 → 44306 [PSH, ACK] Seq=1 Ack=40 Win=65536 Len=181 TSval=675837006 TSecr=675836586
+58	[TCP Retransmission] 19002 → 44328 [FIN, ACK] Seq=80 Ack=42 Win=65536 Len=0 TSval=675837250 TSecr=675837042
+64	[TCP Retransmission] 19002 → 44300 [PSH, ACK] Seq=427 Ack=124 Win=65536 Len=73 TSval=675837510 TSecr=675837086
+77	[TCP Retransmission] 44312 → 19002 [PSH, ACK] Seq=43 Ack=343 Win=65536 Len=102 TSval=675837562 TSecr=675837047
+78	[TCP Previous segment not captured] 19002 → 44312 [ACK] Seq=524 Ack=145 Win=65536 Len=0 TSval=675837562 TSecr=675837562 SLE=43 SRE=145
+81	[TCP Retransmission] 19002 → 44312 [PSH, ACK] Seq=343 Ack=145 Win=65536 Len=102 TSval=675837562 TSecr=675837562
+94	[TCP Retransmission] 44306 → 19002 [FIN, ACK] Seq=209 Ack=713 Win=65536 Len=0 TSval=675838098 TSecr=675838042
+95	[TCP Previous segment not captured] 19002 → 44306 [ACK] Seq=714 Ack=210 Win=65536 Len=0 TSval=675838098 TSecr=675838098 SLE=209 SRE=210
+count: 8
+
+=== packet totals ===
+
+===================================
+| IO Statistics                   |
+|                                 |
+| Duration: 1.730 secs            |
+| Interval: 1.730 secs            |
+|                                 |
+| Col 1: Frames and bytes         |
+|---------------------------------|
+|                |1               |
+| Interval       | Frames | Bytes |
+|---------------------------------|
+| 0.000 <> 1.730 |     95 |  9277 |
+===================================

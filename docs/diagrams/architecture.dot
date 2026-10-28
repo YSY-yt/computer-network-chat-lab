@@ -1,0 +1,18 @@
+digraph architecture {
+    graph [rankdir=TB, bgcolor="white", pad="0.25", nodesep="0.45",
+           ranksep="0.55", fontname="Noto Sans CJK SC", fontsize=12];
+    node [shape=box, style="rounded,filled", fontname="Noto Sans CJK SC",
+          fontsize=11, color="#5B7DB1", fillcolor="#EAF2FB", penwidth=1.2,
+          width=5.0];
+    edge [fontname="Noto Sans CJK SC", fontsize=10, color="#4A5568",
+          arrowsize=0.8];
+
+    client [label="客户端进程（可多个）\n主线程：stdin → 发送\n接收线程：recv → 显示 / 序号检查"];
+    main [label="服务器主线程\nsocket / bind / listen / poll / accept"];
+    worker [label="每客户端一个连接线程\n登录校验、收帧、广播、清理"];
+    state [label="共享状态\n在线链表 + pthread_mutex_t\n每连接 out_seq + 统一时间戳"];
+
+    client -> main [label="TCP / CHAT/1"];
+    main -> worker [label="pthread_create"];
+    worker -> state [label="加锁", dir=both];
+}

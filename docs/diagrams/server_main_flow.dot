@@ -1,0 +1,36 @@
+digraph server_main {
+    graph [rankdir=TB, bgcolor="white", pad="0.2", nodesep="0.32",
+           ranksep="0.38", fontname="Noto Sans CJK SC", fontsize=11];
+    node [fontname="Noto Sans CJK SC", fontsize=10, penwidth=1.1];
+    edge [fontname="Noto Sans CJK SC", fontsize=9, color="#4A5568",
+          arrowsize=0.75];
+
+    start [shape=oval, label="开始", fillcolor="#DFF3E4", style=filled,
+           color="#3C8D5A"];
+    args [shape=box, label="读取端口（默认 8888）\n注册 SIGINT/SIGTERM"];
+    sock [shape=box, label="socket(AF_INET, SOCK_STREAM)\nsetsockopt(SO_REUSEADDR)"];
+    bind [shape=box, label="bind(0.0.0.0:port)\nlisten(backlog=64)"];
+    banner [shape=box, label="打印监听信息"];
+    loop [shape=diamond, label="g_stop == 0 ?"];
+    poll [shape=diamond, label="poll(listen_fd, 500 ms)\n可读？"];
+    accept [shape=box, label="accept()\n记录 peer、设置发送超时"];
+    alloc [shape=diamond, label="calloc 成功？"];
+    thread [shape=box, label="pthread_create(detached)\n执行连接线程"];
+    reject [shape=box, label="回收连接\n继续循环"];
+    shutdown [shape=box, label="加锁：shutdown 所有客户端\n关闭监听 socket"];
+    wait [shape=box, label="等待连接线程退出\n（最多 1 s）"];
+    end [shape=oval, label="结束", fillcolor="#FDE2E2", style=filled,
+         color="#B85C5C"];
+
+    start -> args -> sock -> bind -> banner -> loop;
+    loop -> poll [label="是"];
+    poll -> accept [label="是"];
+    poll -> loop [label="否 / 超时"];
+    accept -> alloc;
+    alloc -> thread [label="是"];
+    alloc -> reject [label="否"];
+    thread -> loop;
+    reject -> loop;
+    loop -> shutdown [label="否（收到信号）"];
+    shutdown -> wait -> end;
+}

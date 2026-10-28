@@ -1,0 +1,32 @@
+digraph client_receiver {
+    graph [rankdir=TB, bgcolor="white", pad="0.2", nodesep="0.32",
+           ranksep="0.36", fontname="Noto Sans CJK SC", fontsize=11];
+    node [fontname="Noto Sans CJK SC", fontsize=10, penwidth=1.1];
+    edge [fontname="Noto Sans CJK SC", fontsize=9, color="#4A5568",
+          arrowsize=0.75];
+
+    start [shape=oval, label="接收线程开始", fillcolor="#DFF3E4",
+           style=filled, color="#3C8D5A"];
+    read [shape=box, label="readline() 读取一帧\n（与主线程共享 reader）"];
+    parse [shape=diamond, label="chat_parse_frame\n成功？"];
+    seq [shape=diamond, label="#SEQ == 期望值？"];
+    warn [shape=box, label="打印“序号不连续”\n仍显示当前帧"];
+    perr [shape=box, label="提示“协议帧格式错误”\n丢弃该帧"];
+    show [shape=box, label="按 TYPE 格式化：\n[时间] <昵称> 内容"];
+    live [shape=diamond, label="g_running 且\n对端未关闭？"];
+    down [shape=box, label="g_running = 0\nshutdown(socket)"];
+    end [shape=oval, label="线程结束", fillcolor="#FDE2E2", style=filled,
+         color="#B85C5C"];
+
+    start -> read -> parse;
+    parse -> seq [label="是"];
+    parse -> perr [label="否"];
+    seq -> show [label="是"];
+    seq -> warn [label="否"];
+    warn -> show;
+    perr -> live;
+    show -> live;
+    live -> read [label="是"];
+    live -> down [label="否"];
+    down -> end;
+}

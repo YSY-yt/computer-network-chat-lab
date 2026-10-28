@@ -1,0 +1,42 @@
+digraph client_main {
+    graph [rankdir=TB, bgcolor="white", pad="0.2", nodesep="0.34",
+           ranksep="0.38", fontname="Noto Sans CJK SC", fontsize=11];
+    node [fontname="Noto Sans CJK SC", fontsize=10, penwidth=1.1];
+    edge [fontname="Noto Sans CJK SC", fontsize=9, color="#4A5568",
+          arrowsize=0.75];
+
+    start [shape=oval, label="主线程开始", fillcolor="#DFF3E4",
+           style=filled, color="#3C8D5A"];
+    init [shape=box, label="解析参数、校验昵称\nsocket() + connect()"];
+    login [shape=box, label="发送 LOGIN\n读取 WELCOME（10 s 超时）"];
+    ok [shape=diamond, label="服务器接受？"];
+    fail [shape=box, label="打印 ERROR 并关闭"];
+    spawn [shape=box, label="创建接收线程\n共享 line_reader"];
+    poll [shape=diamond, label="poll(stdin, 500 ms)\n会话仍在运行？"];
+    cmd [shape=diamond, label="输入行以 '/' 开头？"];
+    local [shape=box, label="/help 本地打印\n/list、/ping 发送请求"];
+    quit [shape=diamond, label="/quit 或 /exit？"];
+    text [shape=diamond, label="UTF-8、非空、\n≤ 3000 B？"];
+    send [shape=box, label="加锁发送 CHAT\n（服务器回显后显示）"];
+    down [shape=box, label="发送 QUIT\ng_running=0，shutdown"];
+    join [shape=box, label="pthread_join\nclose(socket)"];
+    end [shape=oval, label="结束", fillcolor="#FDE2E2", style=filled,
+         color="#B85C5C"];
+
+    start -> init -> login -> ok;
+    ok -> spawn [label="是"];
+    ok -> fail [label="否"];
+    fail -> end;
+    spawn -> poll;
+    poll -> cmd [label="有输入"];
+    poll -> down [label="接收线程退出 / EOF"];
+    cmd -> quit [label="是"];
+    cmd -> text [label="否"];
+    quit -> down [label="是"];
+    quit -> local [label="否"];
+    local -> poll;
+    text -> send [label="是"];
+    text -> poll [label="否，提示"];
+    send -> poll;
+    down -> join -> end;
+}
