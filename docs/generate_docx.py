@@ -488,10 +488,8 @@ def add_cover(doc):
     info = [
         ("课程名称", "计算机网络"),
         ("实验名称", "流式 Socket 聊天程序"),
-        ("姓    名", "________________"),
-        ("学    号", "________________"),
-        ("班    级", "________________"),
-        ("指导教师", "________________"),
+        ("姓    名", "杨斯源"),
+        ("学    号", "2412796"),
         ("日    期", "2026 年 10 月 28 日"),
     ]
     table = doc.add_table(rows=len(info), cols=2)
@@ -686,7 +684,7 @@ def main():
     core = doc.core_properties
     core.title = "基于 TCP 流式套接字的多用户聊天程序"
     core.subject = "计算机网络实验报告"
-    core.author = "YSY-yt"
+    core.author = "杨斯源"
     core.comments = "CHAT/1, TCP, pthread, UTF-8"
     doc.save(OUT)
     print(OUT)
